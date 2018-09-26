@@ -29,7 +29,7 @@ import (
 )
 
 const (
-	version           = "0.0.9"
+	version           = "0.1.0"
 	appServiceManager = "com.hornbill.servicemanager"
 	//Disk Space Declarations
 	sizeKB float64 = 1 << (10 * 1)
@@ -2147,11 +2147,13 @@ func searchSite(siteName string) (bool, int) {
 	espXmlmc.SetParam("entity", "Site")
 	espXmlmc.SetParam("matchScope", "all")
 	espXmlmc.OpenElement("searchFilter")
-	espXmlmc.SetParam("h_site_name", siteName)
+	espXmlmc.SetParam("column", "h_site_name")
+	espXmlmc.SetParam("value", siteName)
+	//espXmlmc.SetParam("h_site_name", siteName)
 	espXmlmc.CloseElement("searchFilter")
 	espXmlmc.SetParam("maxResults", "1")
 
-	XMLSiteSearch, xmlmcErr := espXmlmc.Invoke("data", "entityBrowseRecords")
+	XMLSiteSearch, xmlmcErr := espXmlmc.Invoke("data", "entityBrowseRecords2")
 	if xmlmcErr != nil {
 		logger(4, "Unable to Search for Site: "+fmt.Sprintf("%v", xmlmcErr), false)
 		return boolReturn, intReturn
@@ -2200,11 +2202,13 @@ func searchPriority(priorityName string) (bool, int) {
 	espXmlmc.SetParam("entity", "Priority")
 	espXmlmc.SetParam("matchScope", "all")
 	espXmlmc.OpenElement("searchFilter")
-	espXmlmc.SetParam("h_priorityname", priorityName)
+	//espXmlmc.SetParam("h_priorityname", priorityName)
+	espXmlmc.SetParam("column", "h_priorityname")
+	espXmlmc.SetParam("value", priorityName)
 	espXmlmc.CloseElement("searchFilter")
 	espXmlmc.SetParam("maxResults", "1")
 
-	XMLPrioritySearch, xmlmcErr := espXmlmc.Invoke("data", "entityBrowseRecords")
+	XMLPrioritySearch, xmlmcErr := espXmlmc.Invoke("data", "entityBrowseRecords2")
 	if xmlmcErr != nil {
 		logger(4, "Unable to Search for Priority: "+fmt.Sprintf("%v", xmlmcErr), false)
 		return boolReturn, intReturn
@@ -2253,11 +2257,13 @@ func searchService(serviceName string) (bool, int) {
 	espXmlmc.SetParam("entity", "Services")
 	espXmlmc.SetParam("matchScope", "all")
 	espXmlmc.OpenElement("searchFilter")
-	espXmlmc.SetParam("h_servicename", serviceName)
+	//espXmlmc.SetParam("h_servicename", serviceName)
+	espXmlmc.SetParam("column", "h_servicename")
+	espXmlmc.SetParam("value", serviceName)
 	espXmlmc.CloseElement("searchFilter")
 	espXmlmc.SetParam("maxResults", "1")
 
-	XMLServiceSearch, xmlmcErr := espXmlmc.Invoke("data", "entityBrowseRecords")
+	XMLServiceSearch, xmlmcErr := espXmlmc.Invoke("data", "entityBrowseRecords2")
 	if xmlmcErr != nil {
 		logger(4, "Unable to Search for Service: "+fmt.Sprintf("%v", xmlmcErr), false)
 		//log.Fatal(xmlmcErr)
@@ -2311,11 +2317,13 @@ func searchTeam(teamName string) (bool, string) {
 	espXmlmc.SetParam("entity", "Groups")
 	espXmlmc.SetParam("matchScope", "all")
 	espXmlmc.OpenElement("searchFilter")
-	espXmlmc.SetParam("h_name", teamName)
+	//espXmlmc.SetParam("h_name", teamName)
+	espXmlmc.SetParam("column", "h_name")
+	espXmlmc.SetParam("value", teamName)
 	espXmlmc.CloseElement("searchFilter")
 	espXmlmc.SetParam("maxResults", "1")
 
-	XMLTeamSearch, xmlmcErr := espXmlmc.Invoke("data", "entityBrowseRecords")
+	XMLTeamSearch, xmlmcErr := espXmlmc.Invoke("data", "entityBrowseRecords2")
 	if xmlmcErr != nil {
 		logger(4, "Unable to Search for Team: "+fmt.Sprintf("%v", xmlmcErr), true)
 		//log.Fatal(xmlmcErr)
