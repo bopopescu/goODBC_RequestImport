@@ -2243,6 +2243,7 @@ func searchPriority(priorityName string) (bool, int) {
 	return boolReturn, intReturn
 }
 
+
 // seachService -- Function to check if passed-through service name is on the instance
 func searchService(serviceName string) (bool, int) {
 	boolReturn := false

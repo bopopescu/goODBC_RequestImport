@@ -30,7 +30,7 @@
     "Import":true,
     "CallIDColumn": "Call Number",
     "CallClass": "Incident",
-    "DefaultTeam":"This is a Hornbill Group of type Team",
+    "DefaultTeam":"This is a Hornbill Group of type Team.",
     "DefaultPriority":"Low",
     "DefaultService":"This is the name of a Hornbill Service",
     "SQLStatement":"SELECT * FROM [myCallDataWorkbookforIncidents$]",
