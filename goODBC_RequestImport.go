@@ -29,7 +29,7 @@ import (
 )
 
 const (
-	version           = "0.1.0"
+	version           = "0.1.1"
 	appServiceManager = "com.hornbill.servicemanager"
 	//Disk Space Declarations
 	sizeKB float64 = 1 << (10 * 1)
@@ -2313,13 +2313,20 @@ func searchTeam(teamName string) (bool, string) {
 	if err != nil {
 		return false, "Unable to create connection"
 	}
-
-	espXmlmc.SetParam("entity", "Groups")
+	//###20181008
+	espXmlmc.SetParam("application", appServiceManager)
+	espXmlmc.SetParam("entity", "Team")
+	//###20181008 espXmlmc.SetParam("entity", "Groups")
 	espXmlmc.SetParam("matchScope", "all")
 	espXmlmc.OpenElement("searchFilter")
 	//espXmlmc.SetParam("h_name", teamName)
 	espXmlmc.SetParam("column", "h_name")
 	espXmlmc.SetParam("value", teamName)
+	espXmlmc.CloseElement("searchFilter")
+	espXmlmc.OpenElement("searchFilter")
+	espXmlmc.SetParam("column", "h_type")
+	espXmlmc.SetParam("value", "1")
+	espXmlmc.SetParam("matchType", "exact")
 	espXmlmc.CloseElement("searchFilter")
 	espXmlmc.SetParam("maxResults", "1")
 

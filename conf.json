@@ -30,10 +30,10 @@
     "Import":true,
     "CallIDColumn": "Call Number",
     "CallClass": "Incident",
-    "DefaultTeam":"This might be an organisation or a group",
+    "DefaultTeam":"This is a Hornbill Group of type Team",
     "DefaultPriority":"Low",
-    "DefaultService":"SuperService",
-    "SQLStatement":"SELECT * FROM [InfraCallData$]",
+    "DefaultService":"This is the name of a Hornbill Service",
+    "SQLStatement":"SELECT * FROM [myCallDataWorkbookforIncidents$]",
     "CoreFieldMapping": {
       "h_datelogged":"",
       "h_dateclosed":"",
@@ -41,7 +41,7 @@
       "h_summary":"[Call Description]",
       "h_description":"Incident Reference: [Call Number]\n\n[Call Description]\n\n[Action Taken]",
       "h_external_ref_number":"[Call Number]",
-      "h_fk_user_id":"mhatter",
+      "h_fk_user_id":"[analystUserID]",
       "h_status":"[Open flag]",
       "h_request_language":"en-GB",
       "h_impact":"",
@@ -53,7 +53,7 @@
       "h_closure_category_id":"[Call closing category]",
       "h_ownerid":"",
       "h_fk_team_id":"",
-      "h_fk_priorityid":"",
+      "h_fk_priorityid":"[priority]",
       "h_site_id":"",
       "h_company_id":"",
       "h_company_name":"",
@@ -79,8 +79,8 @@
     },
     "AdditionalFieldMapping":{
       "h_firsttimefix":"",
-      "h_custom_a":"[Call Ref]",
-      "h_custom_b":"[First time fixed]",
+      "h_custom_a":"",
+      "h_custom_b":"",
       "h_custom_c":"",
       "h_custom_d":"",
       "h_custom_e":"",
@@ -109,13 +109,13 @@
     "DefaultTeam":"Service Desk",
     "DefaultPriority":"Low",
     "DefaultService":"Desktop Support",
-    "SQLStatement":"SELECT opencall.callref, logdatex, resolve_datex, closedatex, priority, h_formattedcallref, cust_id, itsm_title, owner, suppgroup, status, updatedb.updatetxt, priority, itsm_impact_level, itsm_urgency_level, withinfix, withinresp, bpm_workflow_id, probcode, fixcode, site, service_name FROM opencall, updatedb LEFT JOIN sc_folio ON sc_folio.fk_cmdb_id = opencall.itsm_fk_service WHERE updatedb.callref = opencall.callref AND updatedb.udindex = 0 AND callclass = 'Service Request' AND status != 17 AND appcode = 'ITSM'",
+    "SQLStatement":"SELECT * FROM [myCallDataWorkbookforServiceRequests$]",
     "CoreFieldMapping": {
       "h_datelogged":"[logdatex]",
       "h_dateclosed":"[closedatex]",
       "h_dateresolved":"[resolve_datex]",
       "h_summary":"[itsm_title]",
-      "h_description":"Supportworks Service Request Reference: [oldCallRef]\n\n[updatetxt]",
+      "h_description":"Service Request Reference: [oldCallRef]\n\n[updatetxt]",
       "h_external_ref_number":"[oldCallRef]",
       "h_fk_user_id":"[cust_id]",
       "h_status":"[status]",
@@ -180,13 +180,13 @@
     "DefaultTeam":"Service Desk",
     "DefaultPriority":"Low",
     "DefaultService":"Desktop Support",
-    "SQLStatement":"SELECT opencall.callref, logdatex, resolve_datex, closedatex, priority, h_formattedcallref, cust_id, itsm_title, owner, suppgroup, status, updatedb.updatetxt, priority, itsm_impact_level, itsm_urgency_level, withinfix, withinresp, bpm_workflow_id, probcode, fixcode, site FROM opencall, updatedb WHERE updatedb.callref = opencall.callref AND updatedb.udindex = 0 AND callclass = 'Change Request' AND status != 17 AND appcode = 'ITSM' ",
+    "SQLStatement":"SELECT * FROM [myCallDataWorkbookforChangeRequests$]",
     "CoreFieldMapping": {
       "h_datelogged":"[logdatex]",
       "h_dateclosed":"[closedatex]",
       "h_dateresolved":"[resolve_datex]",
       "h_summary":"[itsm_title]",
-      "h_description":"Supportworks Change Request Reference: [oldCallRef]\n\n[updatetxt]",
+      "h_description":"Change Request Reference: [oldCallRef]\n\n[updatetxt]",
       "h_external_ref_number":"[oldCallRef]",
       "h_fk_user_id":"[cust_id]",
       "h_status":"[Open flag]",
@@ -255,13 +255,13 @@
     "DefaultTeam":"Service Desk",
     "DefaultPriority":"Low",
     "DefaultService":"Desktop Support",
-    "SQLStatement":"SELECT opencall.callref, logdatex, resolve_datex, closedatex, priority, h_formattedcallref, cust_id, itsm_title, owner, suppgroup, status, updatedb.updatetxt, priority, itsm_impact_level, itsm_urgency_level, withinfix, withinresp, bpm_workflow_id, probcode, fixcode, site FROM opencall, updatedb WHERE updatedb.callref = opencall.callref AND updatedb.udindex = 0 AND callclass = 'Problem' AND status != 17 AND appcode = 'ITSM' ",
+    "SQLStatement":"SELECT * FROM [myCallDataWorkbookforProblemRequests$]",
     "CoreFieldMapping": {
       "h_datelogged":"[logdatex]",
       "h_dateclosed":"[closedatex]",
       "h_dateresolved":"[resolve_datex]",
       "h_summary":"[itsm_title]",
-      "h_description":"Supportworks Problem Reference: [oldCallRef]\n\n[updatetxt]",
+      "h_description":"Problem Reference: [oldCallRef]\n\n[updatetxt]",
       "h_external_ref_number":"[oldCallRef]",
       "h_fk_user_id":"[cust_id]",
       "h_status":"[status]",
@@ -327,13 +327,13 @@
     "DefaultTeam":"Service Desk",
     "DefaultPriority":"Low",
     "DefaultService":"Desktop Support",
-    "SQLStatement":"SELECT opencall.callref, logdatex, resolve_datex, closedatex, priority, h_formattedcallref, cust_id, itsm_title, owner, suppgroup, status, updatedb.updatetxt, priority, itsm_impact_level, itsm_urgency_level, withinfix, withinresp, bpm_workflow_id, probcode, fixcode, site FROM opencall, updatedb WHERE updatedb.callref = opencall.callref AND updatedb.udindex = 0 AND callclass = 'Known Error' AND status != 17 AND appcode = 'ITSM' ",
+    "SQLStatement":"SELECT * FROM [myCallDataWorkbookforKnownErrors$]",
     "CoreFieldMapping": {
       "h_datelogged":"[logdatex]",
       "h_dateclosed":"[closedatex]",
       "h_dateresolved":"[resolve_datex]",
       "h_summary":"[itsm_title]",
-      "h_description":"Supportworks Known Error Reference: [oldCallRef]\n\n[updatetxt]",
+      "h_description":"Known Error Reference: [oldCallRef]\n\n[updatetxt]",
       "h_external_ref_number":"[oldCallRef]",
       "h_fk_user_id":"[cust_id]",
       "h_status":"[status]",
@@ -395,31 +395,22 @@
     }
   },
   "PriorityMapping": {
-    "Supportworks Priority":"Service Manager Priority"
+    "Source Data Priority":"Service Manager Priority"
   },
   "TeamMapping": {
-    "Supportworks Group ID":"Service Manager Team Name"
+    "Source Data Team":"Service Manager Team Name"
   },
   "CategoryMapping": {
-    "Supportworks Profile Code":"Service Manager Profile Code"
+    "Source Data Profile Code":"Service Manager Profile Code"
   },
   "ResolutionCategoryMapping": {
-    "Supportworks Resolution Profile Code":"Service Manager Resolution Profile Code"
+    "Source Data Resolution Profile Code":"Service Manager Resolution Profile Code"
   },
   "ServiceMapping": {
-    "Supportworks Service Name":"Service Manager Service Name"
+    "Source Data Service Name":"Service Manager Service Name"
   },  
   "StatusMapping":{
-      "Product Status":"Service Manager Status",
-      "New":"status.new",
-      "In Progress":"status.open",
-      "Scheduled":"status.open",
-      "Accepted":"status.open",
-      "Open Resolved":"status.resolved",
-      "Resolved":"status.resolved",
-      "Closed Cancelled":"status.cancelled",
-      "Closed":"status.closed",
-      "Closed Unresolved":"status.closed"
+      "Source Data Status":"Service Manager Status"
     }
   
 } 
