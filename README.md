@@ -1,6 +1,7 @@
 ### Supportworks Call Import [GO](https://golang.org/) - Import Script to Hornbill
 
-THIS IS STILL IN BETA
+THIS HAS NEVER EXCEEDED BETA-STATUS
+IT IS NOW BEING RETIRED AND SUPERSEDED BY https://github.com/hornbill/goHornbillRequestImport
 
 ### Quick links
 - [Overview](#overview)
