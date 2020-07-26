@@ -303,8 +303,8 @@ type xmlmcCustomerListResponse struct {
 
 //----- Associated Record Struct
 type reqRelStruct struct {
-	MasterRef string `db:"fk_callref_m"`
-	SlaveRef  string `db:"fk_callref_s"`
+	MainRef string `db:"fk_callref_m"`
+	SubordinateRef  string `db:"fk_callref_s"`
 }
 
 //----- File Attachment Structs
@@ -653,15 +653,15 @@ func processCallAssociations() {
 			logger(4, " Data Mapping Error: "+fmt.Sprintf("%v", errDataMap), false)
 			return
 		}
-		smMasterRef, mrOK := arrCallsLogged[requestRels.MasterRef]
-		smSlaveRef, srOK := arrCallsLogged[requestRels.SlaveRef]
+		smMainRef, mrOK := arrCallsLogged[requestRels.MainRef]
+		smSubordinateRef, srOK := arrCallsLogged[requestRels.SubordinateRef]
 		maxGoroutinesGuard <- struct{}{}
 		wgAssoc.Add(1)
 		go func() {
 			defer wgAssoc.Done()
-			if mrOK == true && smMasterRef != "" && srOK == true && smSlaveRef != "" {
-				//We have Master and Slave calls matched in the SM database
-				addAssocRecord(smMasterRef, smSlaveRef)
+			if mrOK == true && smMainRef != "" && srOK == true && smSubordinateRef != "" {
+				//We have Main and Subordinate calls matched in the SM database
+				addAssocRecord(smMainRef, smSubordinateRef)
 			}
 			<-maxGoroutinesGuard
 		}()
@@ -670,8 +670,8 @@ func processCallAssociations() {
 	logger(1, "Request Association Processing Complete", true)
 }
 
-//addAssocRecord - given a Master Reference and a Slave Refernce, adds a call association record to Service Manager
-func addAssocRecord(masterRef, slaveRef string) {
+//addAssocRecord - given a Main Reference and a Subordinate Refernce, adds a call association record to Service Manager
+func addAssocRecord(mainRef, subordinateRef string) {
 	espXmlmc, err := NewEspXmlmcSession()
 	if err != nil {
 		return
@@ -680,27 +680,27 @@ func addAssocRecord(masterRef, slaveRef string) {
 	espXmlmc.SetParam("entity", "RelatedRequests")
 	espXmlmc.OpenElement("primaryEntityData")
 	espXmlmc.OpenElement("record")
-	espXmlmc.SetParam("h_fk_parentrequestid", masterRef)
-	espXmlmc.SetParam("h_fk_childrequestid", slaveRef)
+	espXmlmc.SetParam("h_fk_parentrequestid", mainRef)
+	espXmlmc.SetParam("h_fk_childrequestid", subordinateRef)
 	espXmlmc.CloseElement("record")
 	espXmlmc.CloseElement("primaryEntityData")
 	XMLUpdate, xmlmcErr := espXmlmc.Invoke("data", "entityAddRecord")
 	if xmlmcErr != nil {
 		//		log.Fatal(xmlmcErr)
-		logger(4, "Unable to create Request Association between ["+masterRef+"] and ["+slaveRef+"] :"+fmt.Sprintf("%v", xmlmcErr), false)
+		logger(4, "Unable to create Request Association between ["+mainRef+"] and ["+subordinateRef+"] :"+fmt.Sprintf("%v", xmlmcErr), false)
 		return
 	}
 	var xmlRespon xmlmcResponse
 	errXMLMC := xml.Unmarshal([]byte(XMLUpdate), &xmlRespon)
 	if errXMLMC != nil {
-		logger(4, "Unable to read response from Hornbill instance for Request Association between ["+masterRef+"] and ["+slaveRef+"] :"+fmt.Sprintf("%v", errXMLMC), false)
+		logger(4, "Unable to read response from Hornbill instance for Request Association between ["+mainRef+"] and ["+subordinateRef+"] :"+fmt.Sprintf("%v", errXMLMC), false)
 		return
 	}
 	if xmlRespon.MethodResult != "ok" {
-		logger(3, "Unable to add Request Association between ["+masterRef+"] and ["+slaveRef+"] : "+xmlRespon.State.ErrorRet, false)
+		logger(3, "Unable to add Request Association between ["+mainRef+"] and ["+subordinateRef+"] : "+xmlRespon.State.ErrorRet, false)
 		return
 	}
-	logger(1, "Request Association Success between ["+masterRef+"] and ["+slaveRef+"]", false)
+	logger(1, "Request Association Success between ["+mainRef+"] and ["+subordinateRef+"]", false)
 }
 
 //processCallData - Query Supportworks call data, process accordingly
